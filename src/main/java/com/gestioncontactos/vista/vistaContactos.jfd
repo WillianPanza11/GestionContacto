@@ -1,0 +1,216 @@
+JFDML JFormDesigner: "8.2.4.0.393" Java: "21.0.6" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp jPanel1:::p::p}"
+			"$verticalGroup": "par l {comp jPanel1:::p::p}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 3
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space :::p, comp jTabbedPane1:::::x, space :::p}}"
+				"$verticalGroup": "par l {seq t {space :::p, comp jTabbedPane1:::::x, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+					name: "jTabbedPane1"
+					"font": new java.awt.Font( "Tahoma", 1, 14 )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {comp jPanel3:::::x, comp jPanel4::l:::x, comp jPanel5::l:::x}"
+						"$verticalGroup": "par l {seq l {comp jPanel3:::p::p, space u:::p, comp jPanel4:::p::p, space :p:10:p, comp jPanel5:::::x, space :::p}}"
+					} ) {
+						name: "jPanel2"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq l {space :p:54:p, par l:::p {comp jLabel1:::::x, comp jLabel3::l:::x, comp jLabel5::l:p:142:p}, space s:::p, par l:::p {comp txt_nombres:::::x, comp txt_email::l:::x, comp cmb_categoria::l::291:x}, space :p:41:p, par l {seq l {comp chb_favorito:::::x, space :p:145:p}, seq l {par l {comp jLabel6::::142:x, comp jLabel4:::::x}, space :::p, par l:::p {comp txtApellidos::::326:x, comp txt_telefono:::::x}, space :p:19:p}}}}"
+							"$verticalGroup": "par l {seq l {space :p:14:p, par b {comp jLabel1::b:p::p, comp txt_nombres::b:p:30:p, comp txtApellidos::b:p:30:p, comp jLabel6::b:p::p}, space s:::p, par t {comp txt_email:::p:30:p, comp jLabel3:::p::p, comp txt_telefono::t:p:30:p, comp jLabel4::t:p::p}, space s:::p, par t {comp cmb_categoria:::p:30:p, comp jLabel5:::p::p, comp chb_favorito:::p::p}, space :::x}}"
+						} ) {
+							name: "jPanel3"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel4"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Telefono:"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel3"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Email:"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel1"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Nombres: "
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "txt_nombres"
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "txtApellidos"
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "txt_email"
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "txt_telefono"
+							} )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "cmb_categoria"
+								"model": new javax.swing.DefaultComboBoxModel {
+									selectedItem: "Elija una categoria"
+									addElement( "Elija una categoria" )
+									addElement( "Familia" )
+									addElement( "Amigos" )
+									addElement( "Trabajo" )
+								}
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel5"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Categoria:"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel6"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Apellidos: "
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "chb_favorito"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Contacto Favorito"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {seq {space :p:54:p, comp btn_add:::p:171:p, space :p:28:p, comp btn_modificar:::p:170:p, space :p:27:p, comp btn_eliminar:::p:170:p, space :p:30:p, comp btnLimpiar:::p:170:p, space :::x, comp btn_exp:::p:170:p, space :p:19:p}, seq {comp jSeparator1:::::x, space :::p}}"
+							"$verticalGroup": "par l {seq l {comp jSeparator1:::p:10:p, space :::p, par b {comp btn_add::b:p:31:p, comp btn_modificar::b:p:31:p, comp btn_eliminar::b:p:31:p, comp btnLimpiar::b:p:31:p, comp btn_exp::b:p:31:p}, space :::x}}"
+						} ) {
+							name: "jPanel4"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btn_add"
+								"text": "Guardar"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btn_modificar"
+								"text": "Modificar"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btn_eliminar"
+								"text": "Eliminar"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btnLimpiar"
+								"text": "Limpiar"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btn_exp"
+								"text": "Exportar"
+							} )
+							add( new FormComponent( "javax.swing.JSeparator" ) {
+								name: "jSeparator1"
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {comp jSeparator2::l:::x, seq t {space :p:52:p, par t {comp jScrollPane1:::::x, seq {comp jLabel2:::p:93:p, space s:::p, comp txt_buscar:::p:662:p, space :::x, comp btnBuscar:::p:170:p}}, space :p:17:p}}"
+							"$verticalGroup": "par l {seq l {comp jSeparator2:::p:10:p, space :::p, par b {comp jLabel2::b:p:31:p, comp btnBuscar::b:p:31:p, comp txt_buscar:::p:30:p}, space :::p, comp jScrollPane1::::423:x, space :::p}}"
+						} ) {
+							name: "jPanel5"
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel2"
+								"font": new java.awt.Font( "Tahoma", 1, 18 )
+								"text": "Buscar:"
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "txt_buscar"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "btnBuscar"
+								"text": "Buscar"
+							} )
+							add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+								name: "jScrollPane1"
+								add( new FormComponent( "javax.swing.JTable" ) {
+									name: "tbl_contactos"
+									"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+										add( new java.util.Vector {
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+										} )
+										add( new java.util.Vector {
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+										} )
+										add( new java.util.Vector {
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+										} )
+										add( new java.util.Vector {
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+											add( null )
+										} )
+									}, new java.util.Vector {
+										add( "Nombre" )
+										add( "Apellidos" )
+										add( "Telefono" )
+										add( "Email" )
+										add( "Categoria" )
+										add( "Favorito" )
+									}, new java.util.Vector {
+										add( class java.lang.Object )
+										add( class java.lang.Object )
+										add( class java.lang.Object )
+										add( class java.lang.Object )
+										add( class java.lang.Object )
+										add( class java.lang.Object )
+									}, new java.util.Vector {
+										add( true )
+										add( true )
+										add( true )
+										add( true )
+										add( true )
+										add( true )
+									}, new java.util.Vector {
+										add( null )
+										add( null )
+										add( null )
+										add( null )
+										add( null )
+										add( null )
+									} )
+								} )
+							} )
+							add( new FormComponent( "javax.swing.JSeparator" ) {
+								name: "jSeparator2"
+							} )
+						} )
+					}, new FormLayoutConstraints( null ) {
+						"title": "Contactos"
+					} )
+					add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+						name: "jTabbedPane2"
+					}, new FormLayoutConstraints( null ) {
+						"title": "etc"
+					} )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) )
+	}
+}
