@@ -129,6 +129,17 @@ public class personaDAO {
 		}
 	}
 
+	//metodo para actalizar los contactos utilizando hilos pero de forma sincronizada
+	public synchronized void updateContactos(List<persona> personas) throws IOException {
+		FileWriter writer = new FileWriter(archivo);
+		//writer.write("NOMBRE;TELEFONO;EMAIL;CATEGORIA;FAVORITO\n");
+		for (persona p : personas) {
+			writer.write(p.datosContacto() + "\n");
+		}
+		writer.close();
+	}
+
+
 	public boolean exportarArchivoCSV(String rutaDestino) {
 		File destino = new File(rutaDestino);
 		try (FileInputStream in = new FileInputStream(this.archivo);
@@ -139,12 +150,32 @@ public class personaDAO {
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
 			}
-			System.out.println("✅ Archivo exportado exitosamente a: " + destino.getAbsolutePath());
+			System.out.println("Archivo exportado exitosamente a: " + destino.getAbsolutePath());
 			return true;
 
 		} catch (IOException e) {
-			System.err.println("❌ Error al exportar el archivo: " + e.getMessage());
+			System.err.println("Error al exportar el archivo: " + e.getMessage());
 			return false;
 		}
 	}
+
+	//exportar un contacto de forma sincronica, esto permite exportar verias contactos al presionar el boton 
+	public synchronized boolean exportarArchivoCSVThreadSafe(String rutaDestino) {
+		File destino = new File(rutaDestino);
+		try (FileInputStream in = new FileInputStream(this.archivo);
+			 FileOutputStream out = new FileOutputStream(destino)) {
+
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+			return true;
+
+		} catch (IOException e) {
+			System.err.println("Error al exportar: " + e.getMessage());
+			return false;
+		}
+	}
+
 }

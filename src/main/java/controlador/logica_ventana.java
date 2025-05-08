@@ -12,6 +12,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -41,6 +42,10 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
     public JFileChooser fileChooser = new JFileChooser();
     public JProgressBar barraProgreso = new JProgressBar(0, 100);
 
+    private static final Object lock = new Object(); // bloqueo global
+    private static final List<String> contactosBloqueados = new ArrayList<>();
+
+
     public logica_ventana(vistaContactos delegado) {
         this.delegado = delegado;
         delegado.setVisible(true);
@@ -57,6 +62,7 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
         this.delegado.getBtn_modificar().addActionListener(this);
         this.delegado.getBtn_exp().addActionListener(this);
         this.delegado.getBtnLimpiar().addActionListener(this);
+        this.delegado.getBtnBuscar().addActionListener(this);
 
         // Registra los ItemListener para el JComboBox de categoría y el JCheckBox de
         // favoritos.
@@ -119,11 +125,11 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
             // Agrega los contactos al modelo de la tabla
             for (persona contacto : contactos) {
                 Object[] fila = {
-                        contacto.getNombre(),
-                        contacto.getTelefono(),
-                        contacto.getEmail(),
-                        contacto.getCategoria(),
-                        contacto.isFavorito() ? "Sí" : "No", };
+                    contacto.getNombre(),
+                    contacto.getTelefono(),
+                    contacto.getEmail(),
+                    contacto.getCategoria(),
+                    contacto.isFavorito() ? "Sí" : "No",};
                 modelo.addRow(fila);
             }
         } catch (Exception e) {
@@ -187,18 +193,26 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
 
         } else if (e.getSource() == delegado.getBtn_modificar()) {
             // Actualiza el contacto seleccionado en la lista.
+            System.out.println(delegado.getTbl_contactos().getSelectedRow());
+            modificarContacto(delegado.getTbl_contactos().getSelectedRow());
+
         } else if (e.getSource() == delegado.getBtn_exp()) {
             // Exporta los contactos a un archivo.
-            exportarConDialogo();
+            //exportarConDialogo();
+            exportarConHilo();
+
         } else if (e.getSource() == delegado.getBtnLimpiar()) {
             limpiarCampos();
+        } else if (e.getSource() == delegado.getBtnBuscar()) {
+            String textoBusqueda = delegado.getTxt_buscar().getText();
+            buscarContactos(textoBusqueda);
         }
     }
 
     public void agregarContacto() {
         incializacionCampos();
         // Verifica si los campos de nombres, teléfono y email no están vacíos.
-        if ((!nombres.equals("")) && (!telefono.equals("")) && (!email.equals(""))) {
+        /*if ((!nombres.equals("")) && (!telefono.equals("")) && (!email.equals(""))) {
             // Verifica si se ha seleccionado una categoría válida.
             if ((!categoria.equals("Elija una Categoria")) && (!categoria.equals(""))) {
                 // Crea un nuevo objeto persona con los datos ingresados y lo guarda.
@@ -216,7 +230,55 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
         } else {
             // Muestra un mensaje de advertencia si algún campo está vacío.
             JOptionPane.showMessageDialog(delegado, "Todos los campos deben ser llenados!!!");
+        }*/
+
+        //Validad de los campos que no esten vacios. 
+        if (nombres.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
+            JOptionPane.showMessageDialog(delegado, "Todos los campos deben ser llenados!!!");
+            return;
         }
+
+        if (categoria.equals("") || categoria.equals("Elija una Categoria")) {
+            JOptionPane.showMessageDialog(delegado, "Debe seleccionar una categoría válida!!!");
+            return;
+        }
+
+        // Crea el hilo para validar en segundo plano
+        Thread hiloValidacion = new Thread(() -> {
+            try {
+                List<persona> contactosExistentes = personaObj.leerArchivo();
+                boolean yaExiste = false;
+
+                for (persona p : contactosExistentes) {
+                    if (p.getNombre().equalsIgnoreCase(nombres)
+                            && p.getTelefono().equalsIgnoreCase(telefono)) {
+                        yaExiste = true;
+                        break;
+                    }
+                }
+
+                if (yaExiste) {
+                    // Mostrar mensaje en el hilo de eventos
+                    SwingUtilities.invokeLater(() -> {
+                        mostrarNotificacionEmergente("El contacto ya está registrado.");
+                    });
+                } else {
+                    // Guardar contacto y actualizar GUI desde el hilo de eventos
+                    persona nuevo = new persona(nombres, telefono, email, categoria, favorito);
+                    new personaDAO(nuevo).escribirArchivo();
+
+                    SwingUtilities.invokeLater(() -> {
+                        limpiarCampos();
+                        mostrarNotificacionEmergente("Contacto registrado con éxito.");
+                    });
+                }
+            } catch (IOException e) {
+                SwingUtilities.invokeLater(() -> {
+                    mostrarNotificacionEmergente("Error al validar el contacto.");
+                });
+            }
+        });
+        hiloValidacion.start(); // Inicia el hilo
     }
 
     @Override
@@ -298,5 +360,154 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
             }
         }
     }
+
+    public void buscarContactos(String textoBusqueda) {
+        //Creacion del hilo SwingWorker
+        SwingWorker<List<persona>, Void> buscador = new SwingWorker<>() {
+            @Override
+            protected List<persona> doInBackground() throws Exception {
+                List<persona> resultados = new ArrayList<>();
+                List<persona> todos = personaObj.leerArchivo();
+
+                for (persona p : todos) {
+                    // Búsqueda por nombre, teléfono o email
+                    if (p.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())
+                            || p.getTelefono().contains(textoBusqueda)
+                            || p.getEmail().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                        resultados.add(p);
+                    }
+                }
+                return resultados;
+            }
+
+            //método se ejecuta automáticamente al finalizar el trabajo en segundo plano definido en doInBackground
+            @Override
+            protected void done() {
+                try {
+                    List<persona> encontrados = get();
+                    // Actualizar la tabla en la interfaz gráfica
+                    DefaultTableModel modelo = (DefaultTableModel) delegado.getTbl_contactos().getModel();
+                    modelo.setRowCount(0); // limpia la tabla
+                    for (persona p : encontrados) {
+                        Object[] fila = {
+                            p.getNombre(),
+                            p.getTelefono(),
+                            p.getEmail(),
+                            p.getCategoria(),
+                            p.isFavorito() ? "Sí" : "No"
+                        };
+                        modelo.addRow(fila);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(delegado, "Error en la búsqueda: " + e.getMessage());
+                }
+            }
+        };
+
+        buscador.execute(); // Iniciar el hilo
+    }
+
+    public void exportarConHilo() {
+        this.fileChooser.setDialogTitle("Exportar archivo CSV");
+        this.fileChooser.setSelectedFile(new File("contactos.csv"));
+        int userSelection = this.fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            if (contactos.size() > 0) {
+                barraProgreso.setValue(0);
+            }
+            barraProgreso.setVisible(true);
+
+            Thread hiloExportar = new Thread(() -> {
+                try {
+                    // Simula tiempo y muestra progreso
+                    for (int i = 0; i <= 100; i += 20) {
+                        Thread.sleep(100);
+                        final int progreso = i;
+                        SwingUtilities.invokeLater(() -> barraProgreso.setValue(progreso));
+                    }
+
+                    String destino = fileChooser.getSelectedFile().getAbsolutePath();
+                    boolean ok = personaObj.exportarArchivoCSVThreadSafe(destino);
+
+                    // Se ejecuta en el hilo de eventos para actualizar la interfaz gráfica
+                    // y mostrar la notificación.
+                    SwingUtilities.invokeLater(() -> {
+                        barraProgreso.setVisible(false);
+                        if (ok) {
+                            mostrarNotificacionEmergente("Contactos exportados con éxito.");
+                        } else {
+                            mostrarNotificacionEmergente( "Fallo al exportar.");
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            hiloExportar.start(); //Ejecuta el hilo!
+        } else {
+            JOptionPane.showMessageDialog(delegado, "No hay contactos para exportar.");
+        }
+    }
+
+    public void mostrarNotificacionEmergente(String mensaje) {
+        //Crea el hilo
+        Thread hilo = new Thread(() -> {
+            //Muestra el mensaje despues de realizar los proceso principales
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(delegado, mensaje);
+            });
+        });
+        //Inicia el hilo
+        hilo.start();
+    }
+
+    public void modificarContacto(int index) {
+        incializacionCampos();
+
+        //Del inidce seleccionado en la tabla valida que exita valores. 
+        if (index >= 0 && index < contactos.size()) {
+
+            //Extrae los valores del indice seleccionado
+            String clave = contactos.get(index).getNombre() + contactos.get(index).getTelefono();
+
+            //Permite el paso a los siguientes hilos simpre y cuando un hilo de por termiando un proceso para que el siguiente continue.
+            synchronized (lock) {
+                if (contactosBloqueados.contains(clave)) {
+                    //Si el hilo se esta ejutando dos veces o no ha terminado el proceso, entonces se muestra este mensaje. 
+                    JOptionPane.showMessageDialog(delegado, "Este contacto ya está siendo editado.");
+                    return;
+                } else {
+                    contactosBloqueados.add(clave);
+                }
+            }
+
+            try {
+                persona p = new persona(nombres, telefono, email, categoria, favorito);
+                contactos.set(index, p);
+                //Permite la edicion un solo objeto para evitar perdida o sobreescritura erronea de datos.
+                synchronized (personaObj) {
+                    personaObj.updateContactos(contactos);
+                }
+                mostrarNotificacionEmergente("Contacto modificado correctamente.");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(delegado, "Error al modificar el contacto.");
+            } finally {
+                synchronized (lock) {
+                    //cuando el hilo empieza a ejecutarse se agrega el contacto a la lista de contactos bloqueados
+                    //con el fin de que no se pueda modificar hasta que el hilo termine su proceso.
+                    //Quitar el contacto de la lista de bloqueados
+                    contactosBloqueados.remove(clave);
+                }
+                limpiarCampos();
+            }
+        } else {
+            JOptionPane.showMessageDialog(delegado, "Seleccione un contacto válido para modificar.");
+        }
+    }
+
+
 
 }
