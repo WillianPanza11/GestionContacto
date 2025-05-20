@@ -1,8 +1,8 @@
 com\gestioncontactos\GestionContactos.class
 controlador\logica_ventana$2.class
+modelo\persona.class
+com\gestioncontactos\vista\vistaContactos$1.class
 controlador\logica_ventana.class
 modelo\personaDAO.class
 com\gestioncontactos\vista\vistaContactos.class
-modelo\persona.class
-com\gestioncontactos\vista\vistaContactos$1.class
 controlador\logica_ventana$1.class

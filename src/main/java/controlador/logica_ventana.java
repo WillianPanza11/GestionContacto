@@ -20,6 +20,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.persona;
 import modelo.personaDAO;
+import org.kordamp.ikonli.fontawesome.FontAwesome;
+import org.kordamp.ikonli.swing.FontIcon;
 
 /**
  *
@@ -45,7 +47,6 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
     private static final Object lock = new Object(); // bloqueo global
     private static final List<String> contactosBloqueados = new ArrayList<>();
 
-
     public logica_ventana(vistaContactos delegado) {
         this.delegado = delegado;
         delegado.setVisible(true);
@@ -63,6 +64,7 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
         this.delegado.getBtn_exp().addActionListener(this);
         this.delegado.getBtnLimpiar().addActionListener(this);
         this.delegado.getBtnBuscar().addActionListener(this);
+        this.delegado.getBtn_imp().addActionListener(this);
 
         // Registra los ItemListener para el JComboBox de categoría y el JCheckBox de
         // favoritos.
@@ -75,39 +77,60 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
     }
 
     private void colocarImage() {
-        ImageIcon iconoSave = new ImageIcon(getClass().getResource("/resources/gurdar.png"));
-        ImageIcon iconoEdit = new ImageIcon(getClass().getResource("/resources/edit.png"));
-        ImageIcon iconoLimpiar = new ImageIcon(getClass().getResource("/resources/clean.png"));
-        ImageIcon iconoSearch = new ImageIcon(getClass().getResource("/resources/find.png"));
-        ImageIcon iconoExportar = new ImageIcon(getClass().getResource("/resources/export.png"));
-        ImageIcon iconoDelete = new ImageIcon(getClass().getResource("/resources/delete.png"));
+        // ImageIcon iconoSave = new
+        // ImageIcon(getClass().getResource("/resources/gurdar.png"));
+        // ImageIcon iconoEdit = new
+        // ImageIcon(getClass().getResource("/resources/edit.png"));
+        // ImageIcon iconoDelete = new
+        // ImageIcon(getClass().getResource("/resources/delete.png"));
+        // ImageIcon iconoLimpiar = new
+        // ImageIcon(getClass().getResource("/resources/clean.png"));
+        // ImageIcon iconoSearch = new
+        // ImageIcon(getClass().getResource("/resources/find.png"));
+        // ImageIcon iconoExportar = new
+        // ImageIcon(getClass().getResource("/resources/export.png"));
 
         // Escalar si es necesario (por ejemplo, 32x32 píxeles)
-        Image imagenEscaladaSave = iconoSave.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoSave = new ImageIcon(imagenEscaladaSave);
+        // Image imagenEscaladaSave = iconoSave.getImage().getScaledInstance(26, 26,
+        // Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoSave = new ImageIcon(imagenEscaladaSave);
 
-        Image imagenEscaladaEdit = iconoEdit.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoEdit = new ImageIcon(imagenEscaladaEdit);
+        // Image imagenEscaladaEdit = iconoEdit.getImage().getScaledInstance(26, 26,
+        // Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoEdit = new ImageIcon(imagenEscaladaEdit);
 
-        Image imagenEscaladaLimpiar = iconoLimpiar.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoLimpiar = new ImageIcon(imagenEscaladaLimpiar);
+        // Image imagenEscaladaDelete = iconoDelete.getImage().getScaledInstance(26, 26,
+        // Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoDelete = new ImageIcon(imagenEscaladaDelete);
 
-        Image imagenEscaladaSearch = iconoSearch.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoSearch = new ImageIcon(imagenEscaladaSearch);
-
-        Image imagenEscaladaExport = iconoDelete.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoExport = new ImageIcon(imagenEscaladaExport);
-
-        Image imagenEscaladaDelete = iconoDelete.getImage().getScaledInstance(26, 26, Image.SCALE_SMOOTH);
-        ImageIcon iconoEscaladoDelete = new ImageIcon(imagenEscaladaDelete);
+        // Image imagenEscaladaLimpiar = iconoLimpiar.getImage().getScaledInstance(26,
+        // 26, Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoLimpiar = new ImageIcon(imagenEscaladaLimpiar);
+        //
+        // Image imagenEscaladaSearch = iconoSearch.getImage().getScaledInstance(26, 26,
+        // Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoSearch = new ImageIcon(imagenEscaladaSearch);
+        //
+        // Image imagenEscaladaExport = iconoExportar.getImage().getScaledInstance(26,
+        // 26, Image.SCALE_SMOOTH);
+        // ImageIcon iconoEscaladoExport = new ImageIcon(imagenEscaladaExport);
 
         // Asignar al botón
-        this.delegado.getBtn_add().setIcon(iconoEscaladoSave);
-        this.delegado.getBtn_modificar().setIcon(iconoEscaladoEdit);
-        this.delegado.getBtnLimpiar().setIcon(iconoEscaladoLimpiar);
-        this.delegado.getBtn_eliminar().setIcon(iconoEscaladoDelete);
-        this.delegado.getBtn_exp().setIcon(iconoEscaladoExport);
-        this.delegado.getBtnBuscar().setIcon(iconoEscaladoSearch);
+        // this.delegado.getBtn_add().setIcon(iconoEscaladoSave);
+        // this.delegado.getBtn_modificar().setIcon(iconoEscaladoEdit);
+        // this.delegado.getBtn_eliminar().setIcon(iconoEscaladoDelete);
+
+        // this.delegado.getBtnLimpiar().setIcon(iconoEscaladoLimpiar);
+        // this.delegado.getBtn_exp().setIcon(iconoEscaladoExport);
+        // this.delegado.getBtnBuscar().setIcon(iconoEscaladoSearch);
+
+        this.delegado.getBtn_add().setIcon(FontIcon.of(FontAwesome.FLOPPY_O, 19));
+        this.delegado.getBtn_modificar().setIcon(FontIcon.of(FontAwesome.EDIT, 19));
+        this.delegado.getBtn_eliminar().setIcon(FontIcon.of(FontAwesome.TRASH, 19));
+        this.delegado.getBtnBuscar().setIcon(FontIcon.of(FontAwesome.SEARCH, 19));
+        this.delegado.getBtn_exp().setIcon(FontIcon.of(FontAwesome.SEND, 19));
+        this.delegado.getBtnLimpiar().setIcon(FontIcon.of(FontAwesome.ERASER, 19));
+        this.delegado.getBtn_imp().setIcon(FontIcon.of(FontAwesome.UPLOAD, 19));
 
     }
 
@@ -125,11 +148,11 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
             // Agrega los contactos al modelo de la tabla
             for (persona contacto : contactos) {
                 Object[] fila = {
-                    contacto.getNombre(),
-                    contacto.getTelefono(),
-                    contacto.getEmail(),
-                    contacto.getCategoria(),
-                    contacto.isFavorito() ? "Sí" : "No",};
+                        contacto.getNombre(),
+                        contacto.getTelefono(),
+                        contacto.getEmail(),
+                        contacto.getCategoria(),
+                        contacto.isFavorito() ? "Sí" : "No", };
                 modelo.addRow(fila);
             }
         } catch (Exception e) {
@@ -190,49 +213,53 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
         if (e.getSource() == delegado.getBtn_add()) {
             agregarContacto();
         } else if (e.getSource() == delegado.getBtn_eliminar()) {
-
+            eliminarContactoSeleccionado();
         } else if (e.getSource() == delegado.getBtn_modificar()) {
             // Actualiza el contacto seleccionado en la lista.
             System.out.println(delegado.getTbl_contactos().getSelectedRow());
             modificarContacto(delegado.getTbl_contactos().getSelectedRow());
-
         } else if (e.getSource() == delegado.getBtn_exp()) {
             // Exporta los contactos a un archivo.
-            //exportarConDialogo();
+            // exportarConDialogo();
             exportarConHilo();
-
         } else if (e.getSource() == delegado.getBtnLimpiar()) {
             limpiarCampos();
         } else if (e.getSource() == delegado.getBtnBuscar()) {
             String textoBusqueda = delegado.getTxt_buscar().getText();
             buscarContactos(textoBusqueda);
+        } else if( e.getSource() == delegado.getBtn_imp()) {
+            // Importa contactos desde un archivo JSON.
+            importarJSON();
         }
     }
 
     public void agregarContacto() {
         incializacionCampos();
         // Verifica si los campos de nombres, teléfono y email no están vacíos.
-        /*if ((!nombres.equals("")) && (!telefono.equals("")) && (!email.equals(""))) {
-            // Verifica si se ha seleccionado una categoría válida.
-            if ((!categoria.equals("Elija una Categoria")) && (!categoria.equals(""))) {
-                // Crea un nuevo objeto persona con los datos ingresados y lo guarda.
-                persona = new persona(nombres, telefono, email, categoria, favorito);
-                new personaDAO(persona).escribirArchivo();
-                // Limpia los campos después de agregar el contacto.
-                limpiarCampos();
-                // Muestra un mensaje de éxito.
-                JOptionPane.showMessageDialog(delegado, "Contacto Registrado!!!");
-            } else {
-                // Muestra un mensaje de advertencia si no se ha seleccionado una categoría
-                // válida.
-                JOptionPane.showMessageDialog(delegado, "Elija una Categoria!!!");
-            }
-        } else {
-            // Muestra un mensaje de advertencia si algún campo está vacío.
-            JOptionPane.showMessageDialog(delegado, "Todos los campos deben ser llenados!!!");
-        }*/
+        /*
+         * if ((!nombres.equals("")) && (!telefono.equals("")) && (!email.equals(""))) {
+         * // Verifica si se ha seleccionado una categoría válida.
+         * if ((!categoria.equals("Elija una Categoria")) && (!categoria.equals(""))) {
+         * // Crea un nuevo objeto persona con los datos ingresados y lo guarda.
+         * persona = new persona(nombres, telefono, email, categoria, favorito);
+         * new personaDAO(persona).escribirArchivo();
+         * // Limpia los campos después de agregar el contacto.
+         * limpiarCampos();
+         * // Muestra un mensaje de éxito.
+         * JOptionPane.showMessageDialog(delegado, "Contacto Registrado!!!");
+         * } else {
+         * // Muestra un mensaje de advertencia si no se ha seleccionado una categoría
+         * // válida.
+         * JOptionPane.showMessageDialog(delegado, "Elija una Categoria!!!");
+         * }
+         * } else {
+         * // Muestra un mensaje de advertencia si algún campo está vacío.
+         * JOptionPane.showMessageDialog(delegado,
+         * "Todos los campos deben ser llenados!!!");
+         * }
+         */
 
-        //Validad de los campos que no esten vacios. 
+        // Validad de los campos que no esten vacios.
         if (nombres.isEmpty() || telefono.isEmpty() || email.isEmpty()) {
             JOptionPane.showMessageDialog(delegado, "Todos los campos deben ser llenados!!!");
             return;
@@ -362,7 +389,7 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
     }
 
     public void buscarContactos(String textoBusqueda) {
-        //Creacion del hilo SwingWorker
+        // Creacion del hilo SwingWorker
         SwingWorker<List<persona>, Void> buscador = new SwingWorker<>() {
             @Override
             protected List<persona> doInBackground() throws Exception {
@@ -380,7 +407,8 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                 return resultados;
             }
 
-            //método se ejecuta automáticamente al finalizar el trabajo en segundo plano definido en doInBackground
+            // método se ejecuta automáticamente al finalizar el trabajo en segundo plano
+            // definido en doInBackground
             @Override
             protected void done() {
                 try {
@@ -390,11 +418,11 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                     modelo.setRowCount(0); // limpia la tabla
                     for (persona p : encontrados) {
                         Object[] fila = {
-                            p.getNombre(),
-                            p.getTelefono(),
-                            p.getEmail(),
-                            p.getCategoria(),
-                            p.isFavorito() ? "Sí" : "No"
+                                p.getNombre(),
+                                p.getTelefono(),
+                                p.getEmail(),
+                                p.getCategoria(),
+                                p.isFavorito() ? "Sí" : "No"
                         };
                         modelo.addRow(fila);
                     }
@@ -428,7 +456,9 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                     }
 
                     String destino = fileChooser.getSelectedFile().getAbsolutePath();
-                    boolean ok = personaObj.exportarArchivoCSVThreadSafe(destino);
+                    // boolean ok = personaObj.exportarArchivoCSVThreadSafe(destino);
+                    // boolean ok = personaObj.exportarJSON(destino);
+                    boolean ok = new personaDAO(new persona()).exportarJSON(destino);
 
                     // Se ejecuta en el hilo de eventos para actualizar la interfaz gráfica
                     // y mostrar la notificación.
@@ -437,7 +467,7 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                         if (ok) {
                             mostrarNotificacionEmergente("Contactos exportados con éxito.");
                         } else {
-                            mostrarNotificacionEmergente( "Fallo al exportar.");
+                            mostrarNotificacionEmergente("Fallo al exportar.");
                         }
                     });
 
@@ -446,37 +476,57 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                 }
             });
 
-            hiloExportar.start(); //Ejecuta el hilo!
+            hiloExportar.start(); // Ejecuta el hilo!
         } else {
             JOptionPane.showMessageDialog(delegado, "No hay contactos para exportar.");
         }
     }
 
+    public void importarJSON() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Importar contactos desde JSON");
+        int opcion = fileChooser.showOpenDialog(null);
+
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            String ruta = fileChooser.getSelectedFile().getAbsolutePath();
+            boolean resultado = new personaDAO(new persona()).importarDesdeJSON(ruta);
+
+            if (resultado) {
+                JOptionPane.showMessageDialog(delegado, "Contactos importados exitosamente.");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(delegado, "Error al importar contactos.");
+            }
+        }
+    }
+
     public void mostrarNotificacionEmergente(String mensaje) {
-        //Crea el hilo
+        // Crea el hilo
         Thread hilo = new Thread(() -> {
-            //Muestra el mensaje despues de realizar los proceso principales
+            // Muestra el mensaje despues de realizar los proceso principales
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(delegado, mensaje);
             });
         });
-        //Inicia el hilo
+        // Inicia el hilo
         hilo.start();
     }
 
     public void modificarContacto(int index) {
         incializacionCampos();
 
-        //Del inidce seleccionado en la tabla valida que exita valores. 
+        // Del inidce seleccionado en la tabla valida que exita valores.
         if (index >= 0 && index < contactos.size()) {
 
-            //Extrae los valores del indice seleccionado
+            // Extrae los valores del indice seleccionado
             String clave = contactos.get(index).getNombre() + contactos.get(index).getTelefono();
 
-            //Permite el paso a los siguientes hilos simpre y cuando un hilo de por termiando un proceso para que el siguiente continue.
+            // Permite el paso a los siguientes hilos simpre y cuando un hilo de por
+            // termiando un proceso para que el siguiente continue.
             synchronized (lock) {
                 if (contactosBloqueados.contains(clave)) {
-                    //Si el hilo se esta ejutando dos veces o no ha terminado el proceso, entonces se muestra este mensaje. 
+                    // Si el hilo se esta ejutando dos veces o no ha terminado el proceso, entonces
+                    // se muestra este mensaje.
                     JOptionPane.showMessageDialog(delegado, "Este contacto ya está siendo editado.");
                     return;
                 } else {
@@ -487,7 +537,8 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
             try {
                 persona p = new persona(nombres, telefono, email, categoria, favorito);
                 contactos.set(index, p);
-                //Permite la edicion un solo objeto para evitar perdida o sobreescritura erronea de datos.
+                // Permite la edicion un solo objeto para evitar perdida o sobreescritura
+                // erronea de datos.
                 synchronized (personaObj) {
                     personaObj.updateContactos(contactos);
                 }
@@ -496,9 +547,10 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
                 JOptionPane.showMessageDialog(delegado, "Error al modificar el contacto.");
             } finally {
                 synchronized (lock) {
-                    //cuando el hilo empieza a ejecutarse se agrega el contacto a la lista de contactos bloqueados
-                    //con el fin de que no se pueda modificar hasta que el hilo termine su proceso.
-                    //Quitar el contacto de la lista de bloqueados
+                    // cuando el hilo empieza a ejecutarse se agrega el contacto a la lista de
+                    // contactos bloqueados
+                    // con el fin de que no se pueda modificar hasta que el hilo termine su proceso.
+                    // Quitar el contacto de la lista de bloqueados
                     contactosBloqueados.remove(clave);
                 }
                 limpiarCampos();
@@ -508,6 +560,27 @@ public class logica_ventana implements ActionListener, ListSelectionListener, It
         }
     }
 
+    public void eliminarContactoSeleccionado() {
+        int filaSeleccionada = delegado.getTbl_contactos().getSelectedRow();
 
+        if (filaSeleccionada != -1) {
+            int confirmacion = JOptionPane.showConfirmDialog(delegado,
+                    "¿Estás seguro de que deseas eliminar este contacto?", "Confirmar eliminación",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                personaDAO dao = new personaDAO(new persona());
+
+                if (dao.eliminarPersona(filaSeleccionada)) {
+                    limpiarCampos(); // recarga la tabla y limpia campos
+                    JOptionPane.showMessageDialog(delegado, "Contacto eliminado con éxito.");
+                } else {
+                    JOptionPane.showMessageDialog(delegado, "No se pudo eliminar el contacto.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(delegado, "⚠️ Debes seleccionar un contacto en la tabla.");
+        }
+    }
 
 }

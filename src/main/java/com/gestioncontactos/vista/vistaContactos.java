@@ -33,7 +33,7 @@ public class vistaContactos extends javax.swing.JFrame {
 
             switch (selectedLanguage) {
                 case "Español":
-                    locale = new Locale("es", "ES");
+                    locale = new Locale("es", "EC");
                     break;
                 case "English":
                     locale = new Locale("en", "US");
@@ -52,9 +52,10 @@ public class vistaContactos extends javax.swing.JFrame {
     }
 
     private void loadLanguage(Locale locale) {
-        // messages = ResourceBundle.getBundle("com.gestioncontactos.idioma.mensajes",
-        // locale);
-        messages = ResourceBundle.getBundle("idiomas.MessagesBundle", locale);
+        
+        
+         messages = ResourceBundle.getBundle("idiomas.MessagesBundle", locale);
+
 
         lblNombres.setText(messages.getString("label.nombres"));
         lblApellido.setText(messages.getString("label.apellidos"));
@@ -82,7 +83,7 @@ public class vistaContactos extends javax.swing.JFrame {
             tbl_contactos.getColumnModel().getColumn(4).setHeaderValue(messages.getString("table.categoria"));
             tbl_contactos.getColumnModel().getColumn(5).setHeaderValue(messages.getString("table.favorito"));
         }
-        tbl_contactos.getTableHeader().repaint(); // 🔥 Actualiza visualmente
+        tbl_contactos.getTableHeader().repaint(); // Actualiza visualmente
     }
     
     
@@ -255,6 +256,14 @@ public class vistaContactos extends javax.swing.JFrame {
         this.lblTelefono = lblTelefono;
     }
 
+    public JButton getBtn_imp() {
+        return btn_imp;
+    }
+
+    public void setBtn_imp(JButton btn_imp) {
+        this.btn_imp = btn_imp;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -288,6 +297,7 @@ public class vistaContactos extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btn_exp = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        btn_imp = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         lblBuscar = new javax.swing.JLabel();
         txt_buscar = new javax.swing.JTextField();
@@ -408,25 +418,31 @@ public class vistaContactos extends javax.swing.JFrame {
         btn_exp.setForeground(new java.awt.Color(255, 255, 255));
         btn_exp.setText("Exportar");
 
+        btn_imp.setBackground(new java.awt.Color(37, 99, 235));
+        btn_imp.setForeground(new java.awt.Color(255, 255, 255));
+        btn_imp.setText("Importar");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_exp, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jSeparator1)
-                .addContainerGap())
+                .addGap(280, 280, 280))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(btn_exp, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_imp, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,8 +454,9 @@ public class vistaContactos extends javax.swing.JFrame {
                     .addComponent(btn_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_exp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_exp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_imp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(249, 250, 251));
@@ -597,6 +614,7 @@ public class vistaContactos extends javax.swing.JFrame {
     private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_exp;
+    private javax.swing.JButton btn_imp;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JCheckBox chb_favorito;
     private javax.swing.JComboBox<String> cmbIdioma;
